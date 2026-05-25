@@ -1,26 +1,23 @@
 jQuery(document).ready(function($){
 
-    $('.upload_logo_button').click(function(e){
+    $(document).on('click', '.upload_logo_button', function(e){
 
         e.preventDefault();
 
-        var image = wp.media({
-
+        var mediaUploader = wp.media({
             title: 'Upload Logo',
-
+            button: {
+                text: 'Use this logo'
+            },
             multiple: false
-
-        }).open()
-
-        .on('select', function(){
-
-            var uploaded = image.state().get('selection').first();
-
-            var url = uploaded.toJSON().url;
-
-            $('#site_logo').val(url);
-
         });
+
+        mediaUploader.on('select', function(){
+            var attachment = mediaUploader.state().get('selection').first().toJSON();
+            $('#site_logo').val(attachment.url);
+        });
+
+        mediaUploader.open();
 
     });
 

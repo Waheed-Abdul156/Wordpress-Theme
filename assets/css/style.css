@@ -393,15 +393,27 @@ h1, h2, h3, h4 {
   justify-content: center;
   width: 34px;
   height: 34px;
-  background: #555;
   color: #fff;
   font-size: 14px;
   border-radius: 3px;
   transition: background 0.2s, transform 0.15s;
 }
 
-.socials a:hover { transform: translateY(-2px); background: #666; }
-.socials a.fb:hover { background: #1877f2; }
+.socials a.fb { background: #262626; }
+.socials a.tw { background: #cccccc; }
+.socials a.in { background: #cccccc; }
+.socials a.pin { background: #cccccc; }
+
+.socials a:hover { transform: translateY(-2px); }
+.socials a.fb:hover { background: #111111; }
+.socials a.tw:hover { background: #b3b3b3; }
+.socials a.in:hover { background: #b3b3b3; }
+.socials a.pin:hover { background: #b3b3b3; }
+
+.wpcf7-form-control-wrap {
+  display: block;
+  width: 100%;
+}
 
 .success-msg {
   display: none;

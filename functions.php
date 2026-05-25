@@ -171,156 +171,9 @@ function ct_custom_widgets_init() {
 
 add_action( 'widgets_init', 'ct_custom_widgets_init' );
 
-/**
- * Theme Settings Page
- */
-function coalition_theme_menu() {
 
-	add_menu_page(
-		'Theme Settings',
-		'Theme Settings',
-		'manage_options',
-		'theme-settings',
-		'coalition_settings_page'
-	);
 
-}
 
-add_action( 'admin_menu', 'coalition_theme_menu' );
-
-/**
- * Register Theme Settings
- */
-function coalition_register_settings() {
-
-	register_setting( 'coalition_settings_group', 'phone_number' );
-	register_setting( 'coalition_settings_group', 'address_info' );
-	register_setting( 'coalition_settings_group', 'fax_number' );
-	register_setting( 'coalition_settings_group', 'site_logo' );
-	register_setting( 'coalition_settings_group', 'facebook_link' );
-	register_setting( 'coalition_settings_group', 'twitter_link' );
-	register_setting( 'coalition_settings_group', 'linkedin_link' );
-
-}
-
-add_action( 'admin_init', 'coalition_register_settings' );
-
-/**
- * Theme Settings Page HTML
- */
-function coalition_settings_page() {
-?>
-
-<div class="wrap">
-
-	<h1>Theme Settings</h1>
-
-	<form method="post" action="options.php">
-
-		<?php settings_fields( 'coalition_settings_group' ); ?>
-
-		<table class="form-table">
-
-			<tr>
-				<th>Phone Number</th>
-
-				<td>
-					<input
-						type="text"
-						name="phone_number"
-						value="<?php echo esc_attr( get_option( 'phone_number' ) ); ?>"
-						class="regular-text"
-					>
-				</td>
-			</tr>
-
-			<tr>
-				<th>Address Information</th>
-
-				<td>
-					<textarea
-						name="address_info"
-						rows="5"
-						class="large-text"
-					><?php echo esc_textarea( get_option( 'address_info' ) ); ?></textarea>
-				</td>
-			</tr>
-
-			<tr>
-				<th>Fax Number</th>
-
-				<td>
-					<input
-						type="text"
-						name="fax_number"
-						value="<?php echo esc_attr( get_option( 'fax_number' ) ); ?>"
-						class="regular-text"
-					>
-				</td>
-			</tr>
-
-			<tr>
-				<th>Logo URL</th>
-
-				<td>
-					<input
-						type="text"
-						name="site_logo"
-						value="<?php echo esc_attr( get_option( 'site_logo' ) ); ?>"
-						class="large-text"
-					>
-				</td>
-			</tr>
-
-			<tr>
-				<th>Facebook Link</th>
-
-				<td>
-					<input
-						type="text"
-						name="facebook_link"
-						value="<?php echo esc_attr( get_option( 'facebook_link' ) ); ?>"
-						class="large-text"
-					>
-				</td>
-			</tr>
-
-			<tr>
-				<th>Twitter Link</th>
-
-				<td>
-					<input
-						type="text"
-						name="twitter_link"
-						value="<?php echo esc_attr( get_option( 'twitter_link' ) ); ?>"
-						class="large-text"
-					>
-				</td>
-			</tr>
-
-			<tr>
-				<th>LinkedIn Link</th>
-
-				<td>
-					<input
-						type="text"
-						name="linkedin_link"
-						value="<?php echo esc_attr( get_option( 'linkedin_link' ) ); ?>"
-						class="large-text"
-					>
-				</td>
-			</tr>
-
-		</table>
-
-		<?php submit_button(); ?>
-
-	</form>
-
-</div>
-
-<?php
-}
 
 /**
  * Additional Theme Files
@@ -378,6 +231,8 @@ function cts_register_settings() {
     register_setting('cts_settings_group', 'twitter_link');
 
     register_setting('cts_settings_group', 'linkedin_link');
+
+    register_setting('cts_settings_group', 'pinterest_link');
 
 }
 
@@ -517,6 +372,23 @@ function cts_theme_settings_page() {
 
             </tr>
 
+            <!-- PINTEREST -->
+            <tr>
+
+                <th>Pinterest Link</th>
+
+                <td>
+
+                    <input
+                        type="text"
+                        name="pinterest_link"
+                        value="<?php echo get_option('pinterest_link'); ?>"
+                    >
+
+                </td>
+
+            </tr>
+
         </table>
 
         <?php submit_button(); ?>
@@ -542,3 +414,21 @@ function cts_admin_scripts() {
     );
 
 }
+
+/**
+ * Customize Contact Form 7 properties to match design layout
+ */
+add_filter('wpcf7_contact_form_properties', 'cts_custom_cf7_form_properties', 10, 2);
+function cts_custom_cf7_form_properties($properties, $contact_form) {
+    $properties['form'] = '<div class="input-wrap">[text* your-name placeholder "Name *"]</div>
+<div class="form-row">
+    <div class="input-wrap">[tel* your-phone placeholder "Phone *"]</div>
+    <div class="input-wrap">[email* your-email placeholder "Email *"]</div>
+</div>
+<div class="input-wrap">[textarea* your-message placeholder "Message *"]</div>
+[submit class:submit-button "SUBMIT"]';
+    return $properties;
+}
+
+// Disable automatic paragraph and line break formatting in Contact Form 7
+add_filter('wpcf7_autop_or_not', '__return_false');
